@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Toko Online Saya</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
     body { background-color: #f4f6f9; color: #333; padding-bottom: 50px; }
     header { background: #007bff; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; display: flex; flex-wrap: wrap; gap: 20px; }
     .katalog { flex: 2; min-width: 300px; }
-    .keranjang-sec { flex: 1; min-width: 280px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content; position: sticky; top: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+    .keranjang-sec { flex: 1; min-width: 280px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
     .card { background: white; border-radius: 8px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
-    .img-box { width: 100%; height: 120px; background: #f8f9fa; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 55px; margin-bottom: 10px; border: 1px solid #eee; }
+    .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
     .card h3 { font-size: 15px; margin-bottom: 5px; }
     .price { color: #28a745; font-size: 15px; font-weight: bold; margin-bottom: 10px; }
     .btn { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
@@ -23,7 +23,7 @@
     .btn-checkout { background: #28a745; margin-top: 15px; }
     .btn-clear { background: #6c757d; margin-top: 5px; }
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-    .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: left; }
+    .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease-in-out; text-align: left; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
     .close-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: #888; }
     .form-group { margin-bottom: 12px; }
@@ -32,6 +32,7 @@
     .success-icon { font-size: 50px; color: #28a745; text-align: center; margin-bottom: 10px; }
     .receipt-box { background: #f8f9fa; border: 1px dashed #28a745; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 14px; line-height: 1.6; }
     .receipt-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 5px 0; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -39,114 +40,200 @@
     <h1>🛒 Toko Serba Ada</h1>
     <p>Belanja Praktis di Android</p>
   </header>
-  <div class='container'>
-    <div class='katalog'>
-      <h2 style='margin-bottom: 15px;'>Katalog Produk (20 Barang)</h2>
-      <div class='grid'>
-        <div class='card'><div class='img-box'>👕</div><h3>Kaos Polos Premium</h3><div class='price'>Rp 75.000</div><button class='btn' onclick="tambahKeKeranjang('Kaos Polos', 75000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>👟</div><h3>Sepatu Sneaker</h3><div class='price'>Rp 250.000</div><button class='btn' onclick="tambahKeKeranjang('Sepatu Sneaker', 250000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>⌚</div><h3>Jam Tangan Digital</h3><div class='price'>Rp 180.000</div><button class='btn' onclick="tambahKeKeranjang('Jam Tangan', 180000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🎒</div><h3>Tas Ransel Laptop</h3><div class='price'>Rp 320.000</div><button class='btn' onclick="tambahKeKeranjang('Tas Ransel', 320000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🎧</div><h3>Headphone Wireless</h3><div class='price'>Rp 450.000</div><button class='btn' onclick="tambahKeKeranjang('Headphone Wireless', 450000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🕶️</div><h3>Kacamata Hitam</h3><div class='price'>Rp 120.000</div><button class='btn' onclick="tambahKeKeranjang('Kacamata Hitam', 120000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🥤</div><h3>Botol Minum Tumbler</h3><div class='price'>Rp 95.000</div><button class='btn' onclick="tambahKeKeranjang('Botol Tumbler', 95000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🧢</div><h3>Topi Baseball</h3><div class='price'>Rp 60.000</div><button class='btn' onclick="tambahKeKeranjang('Topi Baseball', 60000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>📲</div><h3>Smartwatch Fitness</h3><div class='price'>Rp 550.000</div><button class='btn' onclick="tambahKeKeranjang('Smartwatch', 550000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🖱️</div><h3>Mouse Gaming RGB</h3><div class='price'>Rp 175.000</div><button class='btn' onclick="tambahKeKeranjang('Mouse Gaming', 175000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>⌨️</div><h3>Keyboard Mechanical</h3><div class='price'>Rp 390.000</div><button class='btn' onclick="tambahKeKeranjang('Keyboard Mechanical', 390000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🔊</div><h3>Speaker Bluetooth Mini</h3><div class='price'>Rp 210.000</div><button class='btn' onclick="tambahKeKeranjang('Speaker Bluetooth', 210000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>📖</div><h3>Buku Catatan Leather</h3><div class='price'>Rp 45.000</div><button class='btn' onclick="tambahKeKeranjang('Buku Catatan', 45000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🧥</div><h3>Jaket Denim Casual</h3><div class='price'>Rp 280.000</div><button class='btn' onclick="tambahKeKeranjang('Jaket Denim', 280000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>👛</div><h3>Dompet Kulit Pria</h3><div class='price'>Rp 110.000</div><button class='btn' onclick="tambahKeKeranjang('Dompet Kulit', 110000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🩴</div><h3>Sandal Slop Modern</h3><div class='price'>Rp 85.000</div><button class='btn' onclick="tambahKeKeranjang('Sandal Slop', 85000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>🎙️</div><h3>TWS Earbuds Bass</h3><div class='price'>Rp 230.000</div><button class='btn' onclick="tambahKeKeranjang('TWS Earbuds', 230000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>💡</div><h3>Lampu Meja Belajar LED</h3><div class='price'>Rp 135.000</div><button class='btn' onclick="tambahKeKeranjang('Lampu Meja LED', 135000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>📷</div><h3>Kamera Analog Vintage</h3><div class='price'>Rp 850.000</div><button class='btn' onclick="tambahKeKeranjang('Kamera Analog', 850000)">+ Keranjang</button></div>
-        <div class='card'><div class='img-box'>☕</div><h3>Cangkir Kopi Keramik</h3><div class='price'>Rp 50.000</div><button class='btn' onclick="tambahKeKeranjang('Cangkir Keramik', 50000)">+ Keranjang</button></div>
+  <div class="container">
+    <div class="katalog">
+      <h2 style="margin-bottom: 15px;">Katalog Produk (8 Barang)</h2>
+      <div class="grid">
+        
+        <!-- Produk 1 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400" alt="Kaos Polos Premium">
+          <h3>Kaos Polos Premium</h3>
+          <div class="price">Rp 75.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Kaos Polos', 75000)">+ Keranjang</button>
+        </div>
+        
+        <!-- Produk 2 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="Sepatu Sneaker">
+          <h3>Sepatu Sneaker</h3>
+          <div class="price">Rp 250.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Sepatu Sneaker', 250000)">+ Keranjang</button>
+        </div>
+        
+        <!-- Produk 3 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Jam Tangan">
+          <h3>Jam Tangan Digital</h3>
+          <div class="price">Rp 180.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Jam Tangan', 180000)">+ Keranjang</button>
+        </div>
+        
+        <!-- Produk 4 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="Tas">
+          <h3>Tas Ransel Laptop</h3>
+          <div class="price">Rp 320.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Tas Ransel', 320000)">+ Keranjang</button>
+        </div>
+
+        <!-- Produk 5 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" alt="Headphone">
+          <h3>Headphone Wireless</h3>
+          <div class="price">Rp 450.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Headphone Wireless', 450000)">+ Keranjang</button>
+        </div>
+
+        <!-- Produk 6 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" alt="Kacamata">
+          <h3>Kacamata Hitam</h3>
+          <div class="price">Rp 120.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Kacamata Hitam', 120000)">+ Keranjang</button>
+        </div>
+
+        <!-- Produk 7 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400" alt="Tumbler">
+          <h3>Botol Minum Tumbler</h3>
+          <div class="price">Rp 95.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Botol Tumbler', 95000)">+ Keranjang</button>
+        </div>
+
+        <!-- Produk 8 -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400" alt="Topi">
+          <h3>Topi Baseball</h3>
+          <div class="price">Rp 60.000</div>
+          <button class="btn" onclick="tambahKeKeranjang('Topi Baseball', 60000)">+ Keranjang</button>
+        </div>
+        
       </div>
     </div>
-    <div class='keranjang-sec'>
+    
+    <div class="keranjang-sec">
       <h2>🛒 Keranjang Kamu</h2>
-      <hr style='margin: 10px 0;'>
-      <div id='cart-list'><p style='color: #888;'>Keranjang masih kosong.</p></div>
-      <div class='total-price'>Total: <span id='total-harga'>Rp 0</span></div>
-      <button class='btn btn-checkout' onclick="bukaModalPembayaran()">Checkout / Bayar</button>
-      <button class='btn btn-clear' onclick="kosongkanKeranjang()">Kosongkan</button>
+      <hr style="margin: 10px 0;">
+      <div id="cart-list">
+        <p style="color: #888;">Keranjang masih kosong.</p>
+      </div>
+      <div class="total-price">Total: <span id="total-harga">Rp 0</span></div>
+      <button class="btn btn-checkout" onclick="bukaModalPembayaran()">Checkout / Bayar</button>
+      <button class="btn btn-clear" onclick="kosongkanKeranjang()">Kosongkan</button>
     </div>
   </div>
 
-  <div id='modalPembayaran' class='modal'>
-    <div class='modal-content'>
-      <div class='modal-header'>
+  <!-- MODAL FORM PEMBAYARAN -->
+  <div id="modalPembayaran" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
         <h3>💳 Menu Pembayaran</h3>
-        <button class='close-btn' onclick="tutupModalPembayaran()">&times;</button>
+        <button class="close-btn" onclick="tutupModalPembayaran()">&times;</button>
       </div>
       <form onsubmit="prosesBayar(event)">
-        <div class='form-group'><label>Nama Lengkap</label><input type='text' id='nama' placeholder='Masukkan nama kamu' required></div>
-        <div class='form-group'><label>Alamat Pengiriman</label><textarea id='alamat' rows='2' placeholder='Masukkan alamat lengkap' required></textarea></div>
-        <div class='form-group'>
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="nama" placeholder="Masukkan nama kamu" required>
+        </div>
+        <div class="form-group">
+          <label>Alamat Pengiriman</label>
+          <textarea id="alamat" rows="2" placeholder="Masukkan alamat lengkap" required></textarea>
+        </div>
+        <div class="form-group">
           <label>Metode Pembayaran</label>
-          <select id='metode' required>
-            <option value=''>-- Pilih Metode --</option>
-            <option value='Transfer Bank BCA'>Transfer Bank BCA</option>
-            <option value='Transfer Bank Mandiri'>Transfer Bank Mandiri</option>
-            <option value='E-Wallet (GoPay/OVO/DANA)'>E-Wallet (GoPay/OVO/DANA)</option>
-            <option value='QRIS Instant'>QRIS Instant</option>
-            <option value='COD (Bayar di Tempat)'>COD (Bayar di Tempat)</option>
+          <select id="metode" required>
+            <option value="">-- Pilih Metode --</option>
+            <option value="Transfer Bank BCA">Transfer Bank BCA</option>
+            <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
+            <option value="E-Wallet (GoPay/OVO/DANA)">E-Wallet (GoPay/OVO/DANA)</option>
+            <option value="QRIS Instant">QRIS Instant</option>
+            <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
           </select>
         </div>
-        <div style='background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 15px; text-align: center;'>
-          <span style='font-size: 14px;'>Total Pembayaran:</span><br>
-          <strong id='modalTotal' style='font-size: 20px; color: #28a745;'>Rp 0</strong>
+        <div style="background: #e9ecef; padding: 10px; border-radius: 5px; margin-top: 15px; text-align: center;">
+          <span style="font-size: 14px;">Total Pembayaran:</span><br>
+          <strong id="modalTotal" style="font-size: 20px; color: #28a745;">Rp 0</strong>
         </div>
-        <button type='submit' class='btn btn-checkout' style='margin-top: 15px;'>Konfirmasi & Bayar</button>
+        <button type="submit" class="btn btn-checkout" style="margin-top: 15px;">Konfirmasi & Bayar</button>
       </form>
     </div>
   </div>
 
-  <div id='modalSukses' class='modal'>
-    <div class='modal-content' style='text-align: center;'>
-      <div class='success-icon'>✓</div>
-      <h2 style='color: #28a745;'>Pembayaran Berhasil!</h2>
-      <p style='color: #666; font-size: 14px; margin-top: 5px;'>Pesanan kamu sedang diproses dan akan segera dikirim.</p>
-      <div class='receipt-box'>
-        <div class='receipt-row'><span>Nama:</span><b id='recNama'>-</b></div>
-        <div class='receipt-row'><span>Alamat:</span><b id='recAlamat'>-</b></div>
-        <div class='receipt-row'><span>Metode:</span><b id='recMetode'>-</b></div>
-        <div class='receipt-row' style='border-bottom: none; font-size: 16px; margin-top: 5px;'><span>Total Bayar:</span><b id='recTotal' style='color: #28a745;'>Rp 0</b></div>
+  <!-- MODAL BUKTI PEMBAYARAN -->
+  <div id="modalSukses" class="modal">
+    <div class="modal-content" style="text-align: center;">
+      <div class="success-icon">✓</div>
+      <h2 style="color: #28a745;">Pembayaran Berhasil!</h2>
+      <p style="color: #666; font-size: 14px; margin-top: 5px;">Pesanan kamu sedang diproses dan akan segera dikirim.</p>
+      <div class="receipt-box">
+        <div class="receipt-row"><span>Nama:</span><b id="recNama">-</b></div>
+        <div class="receipt-row"><span>Alamat:</span><b id="recAlamat">-</b></div>
+        <div class="receipt-row"><span>Metode:</span><b id="recMetode">-</b></div>
+        <div class="receipt-row" style="border-bottom: none; font-size: 16px; margin-top: 5px;"><span>Total Bayar:</span><b id="recTotal" style="color: #28a745;">Rp 0</b></div>
       </div>
-      <button class='btn' style='background: #28a745;' onclick="tutupModalSukses()">Kembali Belanja</button>
+      <button class="btn" style="background: #28a745;" onclick="tutupModalSukses()">Kembali Belanja</button>
     </div>
   </div>
 
   <script>
     let keranjang = [];
     let totalHarga = 0;
-    function tambahKeKeranjang(nama, harga) { keranjang.push({ nama, harga }); totalHarga += harga; updateKeranjang(); }
+
+    function tambahKeKeranjang(nama, harga) {
+      keranjang.push({ nama, harga });
+      totalHarga += harga;
+      updateKeranjang();
+    }
+
     function updateKeranjang() {
       let cartList = document.getElementById('cart-list');
       let totalText = document.getElementById('total-harga');
-      if (keranjang.length === 0) { cartList.innerHTML = "<p style='color: #888;'>Keranjang masih kosong.</p>"; } 
-      else {
+      if (keranjang.length === 0) {
+        cartList.innerHTML = "<p style='color: #888;'>Keranjang masih kosong.</p>";
+      } else {
         cartList.innerHTML = '';
-        keranjang.forEach((item) => { cartList.innerHTML += `<div class='cart-item'><span>${item.nama}</span><b>Rp ${item.harga.toLocaleString('id-ID')}</b></div>`; });
+        keranjang.forEach((item) => {
+          cartList.innerHTML += `<div class='cart-item'><span>${item.nama}</span><b>Rp ${item.harga.toLocaleString('id-ID')}</b></div>`;
+        });
       }
       totalText.innerText = 'Rp ' + totalHarga.toLocaleString('id-ID');
     }
-    function kosongkanKeranjang() { keranjang = []; totalHarga = 0; updateKeranjang(); }
+
+    function kosongkanKeranjang() {
+      keranjang = [];
+      totalHarga = 0;
+      updateKeranjang();
+    }
+
     function bukaModalPembayaran() {
-      if (keranjang.length === 0) { alert('Keranjang masih kosong!'); return; }
+      if (keranjang.length === 0) {
+        alert('Keranjang masih kosong!');
+        return;
+      }
       document.getElementById('modalTotal').innerText = 'Rp ' + totalHarga.toLocaleString('id-ID');
       document.getElementById('modalPembayaran').style.display = 'flex';
     }
-    function tutupModalPembayaran() { document.getElementById('modalPembayaran').style.display = 'none'; }
-    function tutupModalSukses() { document.getElementById('modalSukses').style.display = 'none'; }
+
+    function tutupModalPembayaran() {
+      document.getElementById('modalPembayaran').style.display = 'none';
+    }
+
+    function tutupModalSukses() {
+      document.getElementById('modalSukses').style.display = 'none';
+    }
+
     function prosesBayar(e) {
       e.preventDefault();
-      document.getElementById('recNama').innerText = document.getElementById('nama').value;
-      document.getElementById('recAlamat').innerText = document.getElementById('alamat').value;
-      document.getElementById('recMetode').innerText = document.getElementById('metode').value;
+      let nama = document.getElementById('nama').value;
+      let alamat = document.getElementById('alamat').value;
+      let metode = document.getElementById('metode').value;
+      
+      document.getElementById('recNama').innerText = nama;
+      document.getElementById('recAlamat').innerText = alamat;
+      document.getElementById('recMetode').innerText = metode;
       document.getElementById('recTotal').innerText = 'Rp ' + totalHarga.toLocaleString('id-ID');
+      
       tutupModalPembayaran();
       document.getElementById('modalSukses').style.display = 'flex';
       kosongkanKeranjang();
