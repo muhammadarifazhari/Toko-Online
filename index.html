@@ -2,88 +2,306 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Toko Online Modern</title>
+  <title>Toko Online Modern - Liquid Glass</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background-color: #f0f2f5; color: #1c1e21; padding-bottom: 20px; }
-    header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 25px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; position: relative; }
-    header h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 5px; }
-    header p { opacity: 0.9; font-size: 14px; font-weight: 300; }
-    .user-badge { position: absolute; top: 15px; right: 20px; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: 700; }
-    .container { max-width: 1050px; margin: 25px auto; padding: 0 15px; display: flex; flex-wrap: wrap; gap: 25px; }
-    .katalog { flex: 2.5; min-width: 320px; }
-    .keranjang-sec { flex: 1; min-width: 300px; background: white; padding: 22px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); height: fit-content; position: sticky; top: 20px; border: 1px solid rgba(0,0,0,0.04); }
     
-    .filter-sec { margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
-    .search-box { width: 100%; padding: 12px 16px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 14px; outline: none; background: white; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-    .search-box:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    body {
+      background: #0f172a;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.4) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(147, 51, 234, 0.35) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.25) 0px, transparent 60%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.3) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.35) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: #f8fafc;
+      padding-bottom: 30px;
+      min-height: 100vh;
+    }
+
+    /* HEADER BANNER */
+    header {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 65px 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 10;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    header h1 { font-size: 32px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    header p { opacity: 0.9; font-size: 14px; font-weight: 300; line-height: 1.5; }
+
+    /* GAMBAR FOTO PRODUK MELAYANG */
+    .floating-item {
+      position: absolute;
+      z-index: 5;
+      pointer-events: none;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
+    }
+    .floating-item img {
+      width: 95px;
+      height: 95px;
+      object-fit: cover;
+      border-radius: 22px;
+      -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+      mask-image: radial-gradient(circle, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+      opacity: 0.85;
+    }
+
+    .float-1 { top: 10%; left: 4%; transform: rotate(-10deg); animation: floatAnim1 5s ease-in-out infinite; }
+    .float-2 { bottom: 10%; left: 14%; transform: rotate(8deg); animation: floatAnim2 6s ease-in-out infinite; }
+    .float-3 { top: 12%; right: 4%; transform: rotate(12deg); animation: floatAnim2 5.5s ease-in-out infinite; }
+    .float-4 { bottom: 8%; right: 15%; transform: rotate(-8deg); animation: floatAnim1 7s ease-in-out infinite; }
+
+    @keyframes floatAnim1 {
+      0%, 100% { transform: translateY(0px) rotate(-10deg); }
+      50% { transform: translateY(-12px) rotate(-5deg); }
+    }
+    @keyframes floatAnim2 {
+      0%, 100% { transform: translateY(0px) rotate(8deg); }
+      50% { transform: translateY(-10px) rotate(12deg); }
+    }
+
+    /* BADGE USER & LOGOUT EFEK LIQUID GLASS EKSTREM */
+    .user-badge {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      padding: 6px 10px 6px 16px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.6);
+      z-index: 20;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .user-badge:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%);
+      border-color: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    }
+    .btn-logout {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.85) 0%, rgba(185, 28, 28, 0.75) 100%);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      transition: all 0.2s ease;
+    }
+    .btn-logout:hover {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 1) 0%, rgba(185, 28, 28, 0.95) 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.8);
+    }
+
+    .container { max-width: 1050px; margin: 30px auto; padding: 0 15px; display: flex; flex-wrap: wrap; gap: 25px; }
+    .katalog { flex: 2.5; min-width: 320px; }
+    
+    /* KERANJANG BELANJA LIQUID GLASS */
+    .keranjang-sec {
+      flex: 1;
+      min-width: 300px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(25px) saturate(160%);
+      -webkit-backdrop-filter: blur(25px) saturate(160%);
+      padding: 24px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 1.5px 2px rgba(255,255,255,0.4);
+      height: fit-content;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    
+    .filter-sec { margin-bottom: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .search-box {
+      width: 100%;
+      padding: 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      font-size: 14px;
+      outline: none;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      transition: 0.3s;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.3);
+    }
+    .search-box::placeholder { color: rgba(255, 255, 255, 0.6); }
+    .search-box:focus {
+      border-color: rgba(59, 130, 246, 0.8);
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25), inset 0 1px 2px rgba(255,255,255,0.5);
+    }
+    
     .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
     .category-pills::-webkit-scrollbar { display: none; }
-    .pill { background: white; border: 1px solid #cbd5e1; color: #475569; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-    .pill.active, .pill:hover { background: #2563eb; color: white; border-color: #2563eb; }
+    .pill {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+    .pill.active, .pill:hover {
+      background: #2563eb;
+      color: white;
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; }
-    .card { background: white; border-radius: 16px; padding: 15px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
-    .card-img-wrapper { position: relative; width: 100%; height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+
+    /* KARTU PRODUK LIQUID GLASS */
+    .card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 24px;
+      padding: 16px;
+      text-align: left;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), inset 0 1.5px 2px rgba(255, 255, 255, 0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.1) 100%);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.55);
+    }
+    
+    .card-img-wrapper { position: relative; width: 100%; height: 160px; border-radius: 16px; overflow: hidden; margin-bottom: 14px; background: rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center; }
     .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .card:hover img { transform: scale(1.08); }
-    .badge { position: absolute; top: 10px; left: 10px; background: rgba(30, 60, 114, 0.85); backdrop-filter: blur(4px); color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; }
-    .badge-promo { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; z-index: 2; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); }
-    .price-container { margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-    .old-price { color: #94a3b8; text-decoration: line-through; font-size: 12px; font-weight: 600; }
+    .badge { position: absolute; top: 10px; left: 10px; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; border: 1px solid rgba(255, 255, 255, 0.3); }
+    .badge-promo { position: absolute; top: 10px; right: 10px; background: rgba(239, 68, 68, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; z-index: 2; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4); }
+    .price-container { margin-bottom: 14px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .old-price { color: rgba(255, 255, 255, 0.5); text-decoration: line-through; font-size: 12px; font-weight: 600; }
+    .rating { font-size: 12px; color: #fbbf24; margin-bottom: 4px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .rating span { color: rgba(255, 255, 255, 0.6); font-weight: 400; font-size: 11px; }
+    .card h3 { font-size: 15px; font-weight: 700; color: #ffffff; margin-bottom: 6px; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .price { color: #34d399; font-size: 17px; font-weight: 800; text-shadow: 0 2px 6px rgba(16, 185, 129, 0.3); }
     
-    .rating { font-size: 12px; color: #f59e0b; margin-bottom: 4px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-    .rating span { color: #94a3b8; font-weight: 400; font-size: 11px; }
-    .card h3 { font-size: 15px; font-weight: 700; color: #2c3e50; margin-bottom: 6px; line-height: 1.3; }
-    .price { color: #10b981; font-size: 16px; font-weight: 800; }
-    .btn { background: #2563eb; color: white; border: none; padding: 10px 14px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; font-size: 13px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 3px 10px rgba(37, 99, 235, 0.2); }
-    .btn:hover { background: #1d4ed8; }
+    .btn { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: 1px solid rgba(255, 255, 255, 0.3); padding: 10px 14px; border-radius: 14px; cursor: pointer; width: 100%; font-weight: 600; font-size: 13px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4), inset 0 1px 1px rgba(255,255,255,0.4); }
+    .btn:hover { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6); }
     
-    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; font-size: 13px; color: #4b5563; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px dashed rgba(255, 255, 255, 0.2); padding-bottom: 10px; font-size: 13px; color: rgba(255, 255, 255, 0.9); }
     .qty-controls { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-    .btn-qty { background: #e2e8f0; border: none; width: 22px; height: 22px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1e293b; }
-    .btn-qty:hover { background: #cbd5e1; }
-    .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-left: 6px; }
-    .btn-del:hover { background: #fca5a5; }
-    
-    .voucher-sec { margin-top: 15px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+    .btn-qty { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255,255,255,0.3); width: 22px; height: 22px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; }
+    .btn-qty:hover { background: rgba(255, 255, 255, 0.35); }
+    .btn-del { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-left: 6px; }
+    .btn-del:hover { background: rgba(239, 68, 68, 0.6); color: white; }
+    .voucher-sec { margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.15); }
     .voucher-input-group { display: flex; gap: 6px; margin-top: 6px; }
-    .voucher-input-group input { flex: 1; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; outline: none; text-transform: uppercase; }
-    .btn-apply { background: #3b82f6; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .voucher-input-group input { flex: 1; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; font-size: 12px; outline: none; text-transform: uppercase; background: rgba(255, 255, 255, 0.1); color: white; }
+    .btn-apply { background: #3b82f6; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .total-price { font-size: 18px; font-weight: 800; color: #f87171; margin-top: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; }
+    .btn-checkout { background: linear-gradient(135deg, #10b981 0%, #059669 100%); margin-top: 16px; padding: 12px; font-size: 14px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+    .btn-checkout:hover { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+    .btn-clear { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); margin-top: 8px; box-shadow: none; border: 1px solid rgba(255, 255, 255, 0.2); }
     
-    .total-price { font-size: 18px; font-weight: 800; color: #ef4444; margin-top: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; }
-    .btn-checkout { background: #10b981; margin-top: 16px; padding: 12px; font-size: 14px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); }
-    .btn-checkout:hover { background: #059669; }
-    .btn-clear { background: #f3f4f6; color: #6b7280; margin-top: 8px; box-shadow: none; border: 1px solid #e5e7eb; }
-    
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-    .modal-content { background: white; width: 100%; max-width: 420px; border-radius: 20px; padding: 28px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 18px; }
-    .modal-header h3 { font-size: 18px; font-weight: 700; color: #0f172a; }
-    .close-btn { background: #f1f5f9; border: none; font-size: 18px; cursor: pointer; color: #64748b; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+    .modal-content { background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); width: 100%; max-width: 420px; border-radius: 28px; padding: 28px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1.5px 2px rgba(255, 255, 255, 0.3); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; border: 1px solid rgba(255, 255, 255, 0.25); color: white; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 12px; margin-bottom: 18px; }
+    .modal-header h3 { font-size: 18px; font-weight: 700; color: #ffffff; }
+    .close-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); font-size: 18px; cursor: pointer; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: 0.2s; background: #f8fafc; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2563eb; background: white; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-    .success-icon { width: 64px; height: 64px; background: #d1fae5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px auto; font-weight: bold; }
-    .receipt-box { background: #f8fafc; border: 1.5px dashed #cbd5e1; padding: 16px; border-radius: 12px; margin: 18px 0; font-size: 13px; line-height: 1.6; }
-    .receipt-row { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding: 6px 0; color: #475569; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: rgba(255, 255, 255, 0.8); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 12px; font-size: 14px; outline: none; transition: 0.2s; background: rgba(255, 255, 255, 0.08); color: white; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2563eb; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); }
+    .form-group select option { background: #0f172a; color: white; }
+    .success-icon { width: 64px; height: 64px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px auto; font-weight: bold; }
+    .receipt-box { background: rgba(255, 255, 255, 0.05); border: 1.5px dashed rgba(255, 255, 255, 0.2); padding: 16px; border-radius: 14px; margin: 18px 0; font-size: 13px; line-height: 1.6; }
+    .receipt-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 6px 0; color: rgba(255, 255, 255, 0.8); }
     
-    footer { margin-top: 40px; background: white; border-top: 1px solid #e2e8f0; padding: 25px 20px; text-align: center; color: #64748b; font-size: 13px; border-radius: 16px; box-shadow: 0 -4px 12px rgba(0,0,0,0.02); }
-    footer .features { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
-    footer .feature-item { font-weight: 600; color: #1e293b; display: flex; align-items: center; gap: 6px; }
-    
+    footer { margin-top: 40px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.2); padding: 25px 20px; text-align: center; color: rgba(255, 255, 255, 0.7); font-size: 13px; border-radius: 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.2); }
+    footer .features { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    footer .feature-item { font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 6px; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .modal-detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 16px; margin-bottom: 15px; background: rgba(0,0,0,0.2); }
+    .modal-detail-desc { font-size: 13px; color: rgba(255, 255, 255, 0.85); line-height: 1.6; margin: 12px 0 18px 0; background: rgba(255, 255, 255, 0.06); padding: 12px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.15); }
+
+    @media (max-width: 1024px) {
+      header { padding: 45px 15px; }
+      .floating-item img { width: 65px; height: 65px; }
+      .user-badge { top: 12px; right: 12px; padding: 4px 6px 4px 10px; font-size: 11px; gap: 6px; }
+      .btn-logout { padding: 4px 10px; font-size: 10px; }
+      .container { margin: 12px auto; padding: 0 10px; gap: 15px; }
+      .katalog { min-width: 100%; }
+      .grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+      .card { padding: 12px; border-radius: 18px; }
+      .card-img-wrapper { height: 115px; margin-bottom: 8px; border-radius: 12px; }
+      .card h3 { font-size: 12px; margin-bottom: 4px; line-height: 1.2; font-weight: 600; }
+      .price { font-size: 13px; }
+      .old-price { font-size: 10px; }
+      .rating { font-size: 10px; margin-bottom: 2px; }
+      .badge, .badge-promo { font-size: 8px; padding: 2px 5px; top: 5px; border-radius: 6px; }
+      .badge { left: 5px; }
+      .badge-promo { right: 5px; }
+      .btn { padding: 8px 6px; font-size: 11px; border-radius: 10px; font-weight: 600; }
+      .keranjang-sec { min-width: 100%; padding: 18px; border-radius: 20px; }
+      .search-box { padding: 10px 14px; font-size: 12px; border-radius: 12px; }
+      .pill { padding: 6px 12px; font-size: 11px; border-radius: 15px; }
+      .modal-content { padding: 22px; border-radius: 22px; }
+      .modal-detail-img { height: 150px; }
+    }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>🛒 Toko Serba Ada</h1>
-    <p>Belanja Praktis, Cepat & Aman dari Aza Store</p>
+    <div class="floating-item float-1"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200" alt="Sepatu"></div>
+    <div class="floating-item float-2"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" alt="Jam Tangan"></div>
+    <div class="floating-item float-3"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" alt="Headphone"></div>
+    <div class="floating-item float-4"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200" alt="Tas"></div>
+
+    <div class="header-content">
+      <h1>🛒 Toko Serba Ada</h1>
+      <p>Belanja Praktis, Cepat & Aman dari Aza Store</p>
+    </div>
+
     <div id="userBadge" class="user-badge" style="display: none;">
       <span>👤 <span id="usernameDisplay">User</span></span>
       <button class="btn-logout" onclick="logout()">Logout</button>
@@ -108,20 +326,20 @@
         </div>
       </div>
 
-      <h2 id="katalogTitle" style="margin-bottom: 18px; font-size: 18px; font-weight: 700; color: #1e293b;">Katalog Produk Pilihan</h2>
+      <h2 id="katalogTitle" style="margin-bottom: 14px; font-size: 16px; font-weight: 700; color: #ffffff;">Katalog Produk Pilihan</h2>
       <div class="grid" id="productGrid">
         
-        <div class="card" data-category="Pakaian" data-name="kaos polos premium">
+        <div class="card" data-category="Pakaian" data-name="kaos polos premium" onclick="bukaDetail('Kaos Polos Premium', 75000, 'Pakaian', 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400', '★ 4.8 (120+ terjual)', 'Kaos polos berbahan 100% Cotton Combed 30s yang sangat lembut, adem, dan menyerap keringat. Cocok untuk penggunaan sehari-hari atau kebutuhan custom harian.')">
           <div class="card-img-wrapper"><span class="badge">Pakaian</span><img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400" alt="Kaos Polos"></div>
           <div>
             <div class="rating">★ 4.8 <span>(120+ terjual)</span></div>
             <h3>Kaos Polos Premium</h3>
             <div class="price-container"><div class="price">Rp 75.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Kaos Polos Premium', 75000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Kaos Polos Premium', 75000)">+ Keranjang</button>
         </div>
         
-        <div class="card" data-category="Fashion" data-name="sepatu sneaker red">
+        <div class="card" data-category="Fashion" data-name="sepatu sneaker red" onclick="bukaDetail('Sepatu Sneaker Red', 250000, 'Fashion', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', '★ 4.9 (85+ terjual)', 'Sepatu sneaker kasual bernuansa merah energik dengan sol empuk anti-selip. Cocok untuk olahraga ringan, jalan-jalan, atau melengkapi penampilan trendi kamu.')">
           <div class="card-img-wrapper">
             <span class="badge">Fashion</span>
             <span class="badge-promo">22% OFF</span>
@@ -131,34 +349,34 @@
             <div class="rating">★ 4.9 <span>(85+ terjual)</span></div>
             <h3>Sepatu Sneaker Red</h3>
             <div class="price-container">
-              <span class="old-price">Rp 320.000</span>
+              <span class="old-price">Rp 320k</span>
               <div class="price">Rp 250.000</div>
             </div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Sepatu Sneaker Red', 250000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Sepatu Sneaker Red', 250000)">+ Keranjang</button>
         </div>
         
-        <div class="card" data-category="Aksesoris" data-name="jam tangan minimalis">
+        <div class="card" data-category="Aksesoris" data-name="jam tangan minimalis" onclick="bukaDetail('Jam Tangan Minimalis', 180000, 'Aksesoris', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', '★ 4.7 (64+ terjual)', 'Jam tangan pria/wanita berdesain elegan minimalis dengan tali kulit sintetis berkualitas tinggi. Tahan percikan air (water-resistant) untuk kegiatan sehari-hari.')">
           <div class="card-img-wrapper"><span class="badge">Aksesoris</span><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Jam Tangan"></div>
           <div>
             <div class="rating">★ 4.7 <span>(64+ terjual)</span></div>
             <h3>Jam Tangan Minimalis</h3>
             <div class="price-container"><div class="price">Rp 180.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Jam Tangan Minimalis', 180000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Jam Tangan Minimalis', 180000)">+ Keranjang</button>
         </div>
         
-        <div class="card" data-category="Tas" data-name="tas ransel laptop">
+        <div class="card" data-category="Tas" data-name="tas ransel laptop" onclick="bukaDetail('Tas Ransel Laptop', 320000, 'Tas', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400', '★ 4.9 (210+ terjual)', 'Tas ransel berkapasitas besar yang dilengkapi slot khusus laptop hingga ukuran 15.6 inci. Bahan water-repellent tahan cipratan air dan nyaman dipakai.')">
           <div class="card-img-wrapper"><span class="badge">Tas</span><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" alt="Tas"></div>
           <div>
             <div class="rating">★ 4.9 <span>(210+ terjual)</span></div>
             <h3>Tas Ransel Laptop</h3>
             <div class="price-container"><div class="price">Rp 320.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Tas Ransel Laptop', 320000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Tas Ransel Laptop', 320000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Audio" data-name="headphone wireless">
+        <div class="card" data-category="Audio" data-name="headphone wireless" onclick="bukaDetail('Headphone Wireless', 450000, 'Audio', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400', '★ 4.8 (140+ terjual)', 'Headphone Bluetooth dengan fitur Active Noise Cancelling dan bass menggelegar. Baterai tahan hingga 20 jam pemakaian non-stop untuk musik dan panggilan.')">
           <div class="card-img-wrapper">
             <span class="badge">Audio</span>
             <span class="badge-promo">18% OFF</span>
@@ -168,58 +386,58 @@
             <div class="rating">★ 4.8 <span>(140+ terjual)</span></div>
             <h3>Headphone Wireless</h3>
             <div class="price-container">
-              <span class="old-price">Rp 550.000</span>
+              <span class="old-price">Rp 550k</span>
               <div class="price">Rp 450.000</div>
             </div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Headphone Wireless', 450000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Headphone Wireless', 450000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Aksesoris" data-name="kacamata hitam modern">
+        <div class="card" data-category="Aksesoris" data-name="kacamata hitam modern" onclick="bukaDetail('Kacamata Hitam Modern', 120000, 'Aksesoris', 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400', '★ 4.6 (92+ terjual)', 'Kacamata hitam berlensa UV400 yang melindungi mata kamu dari paparan sinar matahari langsung. Frame kokoh dan sangat nyaman dipakai outdoor.')">
           <div class="card-img-wrapper"><span class="badge">Aksesoris</span><img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" alt="Kacamata"></div>
           <div>
             <div class="rating">★ 4.6 <span>(92+ terjual)</span></div>
             <h3>Kacamata Hitam Modern</h3>
             <div class="price-container"><div class="price">Rp 120.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Kacamata Hitam Modern', 120000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Kacamata Hitam Modern', 120000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Gaya Hidup" data-name="botol tumbler stainless">
+        <div class="card" data-category="Gaya Hidup" data-name="botol tumbler stainless" onclick="bukaDetail('Botol Tumbler Stainless', 95000, 'Gaya Hidup', 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400', '★ 5.0 (310+ terjual)', 'Tumbler air minum berbahan Stainless Steel SUS304 berkapasitas 500ml. Mampu menahan suhu minuman panas atau dingin hingga 12 jam.')">
           <div class="card-img-wrapper"><span class="badge">Gaya Hidup</span><img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400" alt="Tumbler"></div>
           <div>
             <div class="rating">★ 5.0 <span>(310+ terjual)</span></div>
             <h3>Botol Tumbler Stainless</h3>
             <div class="price-container"><div class="price">Rp 95.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Botol Tumbler Stainless', 95000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Botol Tumbler Stainless', 95000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Fashion" data-name="topi baseball casual">
+        <div class="card" data-category="Fashion" data-name="topi baseball casual" onclick="bukaDetail('Topi Baseball Casual', 60000, 'Fashion', 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400', '★ 4.7 (175+ terjual)', 'Topi baseball kasual dengan buckle pengatur ukuran di bagian belakang. Terbuat dari katun twill tebal yang nyaman dan stylish.')">
           <div class="card-img-wrapper"><span class="badge">Fashion</span><img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400" alt="Topi"></div>
           <div>
             <div class="rating">★ 4.7 <span>(175+ terjual)</span></div>
             <h3>Topi Baseball Casual</h3>
             <div class="price-container"><div class="price">Rp 60.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Topi Baseball Casual', 60000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Topi Baseball Casual', 60000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Elektronik" data-name="kamera analog vintage">
+        <div class="card" data-category="Elektronik" data-name="kamera analog vintage" onclick="bukaDetail('Kamera Analog Vintage', 650000, 'Elektronik', 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400', '★ 4.9 (45+ terjual)', 'Kamera analog klasik dengan gaya estetis bernuansa retro. Menggunakan roll film 35mm, sangat cocok untuk penggemar fotografi klasik.')">
           <div class="card-img-wrapper"><span class="badge">Elektronik</span><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400" alt="Kamera"></div>
           <div>
             <div class="rating">★ 4.9 <span>(45+ terjual)</span></div>
             <h3>Kamera Analog Vintage</h3>
             <div class="price-container"><div class="price">Rp 650.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Kamera Analog Vintage', 650000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Kamera Analog Vintage', 650000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Gadget" data-name="powerbank slim 10000mah">
-          <div class="card-img-wrapper" style="background: #e2e8f0;">
+        <div class="card" data-category="Gadget" data-name="powerbank slim 10000mah" onclick="bukaDetail('Powerbank Slim 10000mAh', 145000, 'Gadget', 'https://images.unsplash.com/photo-1609592424109-dd9892f1b177?w=400', '★ 4.8 (280+ terjual)', 'Powerbank super tipis berkapasitas 10000mAh yang mendukung Fast Charging Dual Output. Mudah dibawa bepergian ke mana saja.')">
+          <div class="card-img-wrapper" style="background: rgba(255, 255, 255, 0.05);">
             <span class="badge">Gadget</span>
             <span class="badge-promo">28% OFF</span>
-            <svg width="110" height="110" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="25" y="15" width="50" height="70" rx="8" fill="#1e293b"/>
               <rect x="30" y="20" width="40" height="60" rx="5" fill="#334155"/>
               <circle cx="38" cy="28" r="3" fill="#10b981"/>
@@ -233,14 +451,14 @@
             <div class="rating">★ 4.8 <span>(280+ terjual)</span></div>
             <h3>Powerbank Slim 10000mAh</h3>
             <div class="price-container">
-              <span class="old-price">Rp 200.000</span>
+              <span class="old-price">Rp 200k</span>
               <div class="price">Rp 145.000</div>
             </div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Powerbank Slim 10000mAh', 145000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Powerbank Slim 10000mAh', 145000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Pakaian" data-name="celana jeans denim casual">
+        <div class="card" data-category="Pakaian" data-name="celana jeans denim casual" onclick="bukaDetail('Celana Jeans Denim', 195000, 'Pakaian', 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400', '★ 4.8 (190+ terjual)', 'Celana jeans pria berbahan denim stretch fleksibel. Jahitan kuat dan nyaman dipakai beraktivitas penuh seharian.')">
           <div class="card-img-wrapper">
             <span class="badge">Pakaian</span>
             <span class="badge-promo">22% OFF</span>
@@ -250,35 +468,35 @@
             <div class="rating">★ 4.8 <span>(190+ terjual)</span></div>
             <h3>Celana Jeans Denim Casual</h3>
             <div class="price-container">
-              <span class="old-price">Rp 250.000</span>
+              <span class="old-price">Rp 250k</span>
               <div class="price">Rp 195.000</div>
             </div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Celana Jeans Denim', 195000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Celana Jeans Denim', 195000)">+ Keranjang</button>
         </div>
 
-        <div class="card" data-category="Mainan" data-name="boneka teddy bear lucu">
+        <div class="card" data-category="Mainan" data-name="boneka teddy bear lucu" onclick="bukaDetail('Boneka Teddy Bear', 110000, 'Mainan', 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=400', '★ 5.0 (150+ terjual)', 'Boneka teddy bear berukuran medium dengan bulu rasfur yang sangat lembut dan halus. Sangat cocok dijadikan kado atau hadiah manis.')">
           <div class="card-img-wrapper"><span class="badge">Mainan</span><img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=400" alt="Boneka Bear"></div>
           <div>
             <div class="rating">★ 5.0 <span>(150+ terjual)</span></div>
             <h3>Boneka Teddy Bear Lucu</h3>
             <div class="price-container"><div class="price">Rp 110.000</div></div>
           </div>
-          <button class="btn" onclick="tambahKeKeranjang('Boneka Teddy Bear', 110000)">+ Keranjang</button>
+          <button class="btn" onclick="event.stopPropagation(); tambahKeKeranjang('Boneka Teddy Bear', 110000)">+ Keranjang</button>
         </div>
         
       </div>
     </div>
     
     <div class="keranjang-sec">
-      <h2 style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 12px;">🛍️ Ringkasan Belanja</h2>
-      <hr style="margin-bottom: 15px; border: none; border-top: 1px solid #f1f5f9;">
+      <h2 style="font-size: 18px; font-weight: 700; color: #ffffff; margin-bottom: 12px;">🛍️ Ringkasan Belanja</h2>
+      <hr style="margin-bottom: 15px; border: none; border-top: 1px solid rgba(255, 255, 255, 0.15);">
       <div id="cart-list">
-        <p style="color: #94a3b8; font-size: 14px; text-align: center; padding: 20px 0;">Keranjang kamu masih kosong.</p>
+        <p style="color: rgba(255, 255, 255, 0.6); font-size: 14px; text-align: center; padding: 20px 0;">Keranjang kamu masih kosong.</p>
       </div>
       
       <div class="voucher-sec">
-        <span style="font-size: 12px; font-weight: 700; color: #475569;">Punya Kode Promo?</span>
+        <span style="font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.8);">Punya Kode Promo?</span>
         <div class="voucher-input-group">
           <input type="text" id="voucherCode" placeholder="Contoh: DISKON10">
           <button class="btn-apply" onclick="applyVoucher()">Pakai</button>
@@ -287,7 +505,7 @@
       </div>
 
       <div class="total-price">
-        <span style="font-size: 14px; color: #64748b; font-weight: 600;">Total Tagihan</span>
+        <span style="font-size: 14px; color: rgba(255, 255, 255, 0.7); font-weight: 600;">Total Tagihan</span>
         <span id="total-harga">Rp 0</span>
       </div>
       <button class="btn btn-checkout" onclick="bukaModalPembayaran()">Lanjut Pembayaran</button>
@@ -306,10 +524,27 @@
     </footer>
   </div>
 
+  <div id="modalDetail" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="detailJudul">Detail Produk</h3>
+        <button class="close-btn" onclick="tutupDetail()">✕</button>
+      </div>
+      <img id="detailImg" class="modal-detail-img" src="" alt="Foto Produk">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span id="detailBadge" class="badge" style="position: static;">Kategori</span>
+        <div id="detailRating" class="rating">★ 0.0</div>
+      </div>
+      <div id="detailHarga" class="price" style="font-size: 20px; margin-top: 10px;">Rp 0</div>
+      <div id="detailDesc" class="modal-detail-desc">Deskripsi produk...</div>
+      <button id="btnDetailAdd" class="btn" style="padding: 12px; font-size: 14px;">+ Tambah ke Keranjang</button>
+    </div>
+  </div>
+
   <div id="modalLogin" class="modal" style="display: flex;">
     <div class="modal-content" style="text-align: center;">
-      <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Selamat Datang 👋</h2>
-      <p style="color: #64748b; font-size: 13px; margin-bottom: 20px;">Silakan masuk akun kamu untuk melanjutkan belanja</p>
+      <h2 style="font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 6px;">Selamat Datang 👋</h2>
+      <p style="color: rgba(255, 255, 255, 0.7); font-size: 13px; margin-bottom: 20px;">Silakan masuk akun kamu untuk melanjutkan belanja</p>
       <form onsubmit="prosesLogin(event)">
         <div class="form-group">
           <label style="text-align: left;">Username</label>
@@ -350,9 +585,9 @@
             <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
           </select>
         </div>
-        <div style="background: #f1f5f9; padding: 12px; border-radius: 10px; margin-top: 16px; text-align: center; border: 1px solid #e2e8f0;">
-          <span style="font-size: 13px; color: #64748b; font-weight: 600;">Total Bayar:</span><br>
-          <strong id="modalTotal" style="font-size: 22px; color: #10b981; font-weight: 800;">Rp 0</strong>
+        <div style="background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 14px; margin-top: 16px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.15);">
+          <span style="font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 600;">Total Bayar:</span><br>
+          <strong id="modalTotal" style="font-size: 22px; color: #34d399; font-weight: 800;">Rp 0</strong>
         </div>
         <button type="submit" class="btn btn-checkout" style="margin-top: 16px; width: 100%;">Bayar Sekarang</button>
       </form>
@@ -362,13 +597,13 @@
   <div id="modalSukses" class="modal">
     <div class="modal-content" style="text-align: center;">
       <div class="success-icon">✓</div>
-      <h2 style="color: #0f172a; font-size: 20px; font-weight: 800;">Pembayaran Berhasil!</h2>
-      <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Pesanan kamu telah dicatat dan siap dikirim.</p>
+      <h2 style="color: #ffffff; font-size: 20px; font-weight: 800;">Pembayaran Berhasil!</h2>
+      <p style="color: rgba(255, 255, 255, 0.7); font-size: 13px; margin-top: 4px;">Pesanan kamu telah dicatat dan siap dikirim.</p>
       <div class="receipt-box">
-        <div class="receipt-row"><span>Nama Penerima:</span><b id="recNama" style="color: #1e293b;">-</b></div>
-        <div class="receipt-row"><span>Alamat:</span><b id="recAlamat" style="color: #1e293b;">-</b></div>
-        <div class="receipt-row"><span>Metode:</span><b id="recMetode" style="color: #1e293b;">-</b></div>
-        <div class="receipt-row" style="border-bottom: none; font-size: 15px; margin-top: 6px; padding-top: 8px;"><span>Total Pembayaran:</span><b id="recTotal" style="color: #10b981; font-weight: 800;">Rp 0</b></div>
+        <div class="receipt-row"><span>Nama Penerima:</span><b id="recNama" style="color: #ffffff;">-</b></div>
+        <div class="receipt-row"><span>Alamat:</span><b id="recAlamat" style="color: #ffffff;">-</b></div>
+        <div class="receipt-row"><span>Metode:</span><b id="recMetode" style="color: #ffffff;">-</b></div>
+        <div class="receipt-row" style="border-bottom: none; font-size: 15px; margin-top: 6px; padding-top: 8px;"><span>Total Pembayaran:</span><b id="recTotal" style="color: #34d399; font-weight: 800;">Rp 0</b></div>
       </div>
       <button class="btn" style="background: #10b981; padding: 12px;" onclick="tutupModalSukses()">Kembali ke Katalog</button>
     </div>
@@ -428,6 +663,25 @@
       });
     }
 
+    function bukaDetail(nama, harga, kategori, gambar, rating, deskripsi) {
+      document.getElementById('detailJudul').innerText = nama;
+      document.getElementById('detailImg').src = gambar;
+      document.getElementById('detailBadge').innerText = kategori;
+      document.getElementById('detailRating').innerText = rating;
+      document.getElementById('detailHarga').innerText = 'Rp ' + harga.toLocaleString('id-ID');
+      document.getElementById('detailDesc').innerText = deskripsi;
+      let btnAdd = document.getElementById('btnDetailAdd');
+      btnAdd.onclick = function() {
+        tambahKeKeranjang(nama, harga);
+        tutupDetail();
+      };
+      document.getElementById('modalDetail').style.display = 'flex';
+    }
+
+    function tutupDetail() {
+      document.getElementById('modalDetail').style.display = 'none';
+    }
+
     function tambahKeKeranjang(nama, harga) {
       let found = keranjang.find(item => item.nama === nama);
       if(found) {
@@ -460,17 +714,17 @@
       if(code === 'DISKON10') {
         diskon = 0.1;
         msg.innerText = '✓ Voucher 10% berhasil diterapkan!';
-        msg.style.color = '#10b981';
+        msg.style.color = '#34d399';
         msg.style.display = 'block';
       } else if(code === 'ONGKIRGRATIS') {
         diskon = 20000;
         msg.innerText = '✓ Potongan Rp 20.000 diterapkan!';
-        msg.style.color = '#10b981';
+        msg.style.color = '#34d399';
         msg.style.display = 'block';
       } else {
         diskon = 0;
         msg.innerText = '✕ Kode voucher tidak valid';
-        msg.style.color = '#ef4444';
+        msg.style.color = '#f87171';
         msg.style.display = 'block';
       }
       updateKeranjang();
@@ -490,7 +744,7 @@
       let cartList = document.getElementById('cart-list');
       let totalText = document.getElementById('total-harga');
       if (keranjang.length === 0) {
-        cartList.innerHTML = "<p style='color: #94a3b8; font-size: 14px; text-align: center; padding: 20px 0;'>Keranjang kamu masih kosong.</p>";
+        cartList.innerHTML = "<p style='color: rgba(255, 255, 255, 0.6); font-size: 14px; text-align: center; padding: 20px 0;'>Keranjang kamu masih kosong.</p>";
         diskon = 0;
         document.getElementById('voucherMsg').style.display = 'none';
         document.getElementById('voucherCode').value = '';
@@ -499,16 +753,16 @@
         keranjang.forEach((item) => {
           cartList.innerHTML += `<div class='cart-item'>
             <div>
-              <b style='color: #0f172a;'>${item.nama}</b><br>
-              <span style='color: #10b981; font-weight: 700;'>Rp ${(item.harga * item.qty).toLocaleString('id-ID')}</span>
-              <div class='qty-controls'>
-                <button class='btn-qty' onclick="ubahQty('${item.nama}', -1)">-</button>
-                <span style='font-size: 12px; font-weight: 700;'>${item.qty}</span>
-                <button class='btn-qty' onclick="ubahQty('${item.nama}', 1)">+</button>
-              </div>
+            <b style='color: #ffffff;'>${item.nama}</b><br>
+            <span style='color: #34d399; font-weight: 700;'>Rp ${(item.harga * item.qty).toLocaleString('id-ID')}</span>
+            <div class='qty-controls'>
+            <button class='btn-qty' onclick="ubahQty('${item.nama}', -1)">-</button>
+            <span style='font-size: 12px; font-weight: 700; color: white;'>${item.qty}</span>
+            <button class='btn-qty' onclick="ubahQty('${item.nama}', 1)">+</button>
+            </div>
             </div>
             <button class='btn-del' onclick="hapusItem('${item.nama}')">🗑️</button>
-          </div>`;
+            </div>`;
         });
       }
       totalText.innerText = 'Rp ' + Math.round(hitungTotal()).toLocaleString('id-ID');
